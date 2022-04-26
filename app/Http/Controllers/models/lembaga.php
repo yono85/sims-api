@@ -77,18 +77,19 @@ class lembaga extends Controller
         $addnew->save();
 
         //create account if page = 0
-        if($request->type == '0')        
+        if($request->page == '0')        
         {
 
             $datacreateaccount = [
-                'useremail'     =>  trim($request->useremail),
+                'email'     =>  trim($request->useremail),
                 'name'          =>  trim($request->username),
                 'phone'         =>  trim($request->userphone),
                 'gender'        =>  trim($request->gender),
                 'sub_level'     =>  trim($request->categori),
                 'type'          =>  trim($request->type),
                 'info'          =>  trim($request->info),
-                'lembaga_id'     =>  $newid
+                'lembaga_id'     =>  $newid,
+                'categori'      =>  trim($request->categori)
             ];
 
             $createaccount = $this->createaccount($datacreateaccount);
@@ -154,9 +155,9 @@ class lembaga extends Controller
     {
         //create account
         $dataaccount = [
-            'email'         =>  $request['useremail'],
-            'name'          =>  $request['username'],
-            'phone'         =>  $request['userphone'],
+            'email'         =>  $request['email'],
+            'name'          =>  $request['name'],
+            'phone'         =>  $request['phone'],
             'phone_code'    =>  62,
             'gender'        =>  $request['gender'],
             'level'         =>  2,
