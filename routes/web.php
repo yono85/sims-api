@@ -340,7 +340,7 @@ $router->group(['prefix' => 'api',  'middleware' => ['cekrequest','cekKeyAccount
     
 
     // //COMPANY PROFILE
-    // $router->get('/manage/company/profile', 'company\index@profile');
+    $router->get('/manage/company/profile', 'company\index@profile');
 
     // //MANAGE DATA
     // $router->get('/manage/data/type-tools', 'manage\data@tools');
