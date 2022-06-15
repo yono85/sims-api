@@ -144,7 +144,7 @@ class index extends Controller
         $data = [
             "company"       =>  [
                 "name"          =>  env("APP_NAMELABEL"),
-                "url_logo"      =>  env("URL_APP") . "/assets/icon/logo-bonne.png",
+                "url_logo"      =>  env("URL_APP") . "/assets/icon/logo-dki.png",
                 "url"           =>  env("URL_APP"),
                 "url_help"      =>  env("URL_APP")
                 ],
