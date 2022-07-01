@@ -25,10 +25,14 @@ class lembaga extends Controller
 
         //owner
         $owner = [
-            'ketua'     =>  trim($request->ketua),
+            'ketua'     =>  [
+                'name'      =>  trim($request->ketua),
+                'phone'     =>  trim($request->ketua_phone)
+            ],
             'sekertaris'    =>  trim($request->sekertaris),
             'bendahara'     =>  trim($request->bendahara)
         ];
+        
 
         //adddress
         $address = [
@@ -36,7 +40,29 @@ class lembaga extends Controller
             'provinsi'  =>  $bpslabel[2],
             'city'      =>  $bpslabel[1],
             'kecamatan' =>  $bpslabel[0],
-            'kodepos'   =>  trim($request->kodepos)
+            'kodepos'   =>  trim($request->kodepos),
+            'kelurahan' =>  trim($request->kelurahan)
+        ];
+
+        //field
+        $field = [
+            'domisili'      =>  [
+                'no'            =>  '',
+                'date'          =>  ''
+            ],
+            'sertif'        =>  [
+                'no'            =>  '',
+                'date'          =>  ''
+            ],
+            'operasional'   =>  [
+                'no'            =>  '',
+                'date'          =>  ''
+            ],
+            'bank'          =>  [
+                'name'          =>  '',
+                'norek'         =>  '',
+                'owner'         =>  ''
+            ]
         ];
 
         if(trim($request->page == '1'))
@@ -58,9 +84,11 @@ class lembaga extends Controller
         $addnew                 =   new tblLembagas;
         $addnew->id             =   $newid;
         $addnew->token          =   $token;
-        $addnew->type           =   trim($request->categori);
+        $addnew->type           =   trim($request->type);
         $addnew->search         =   trim($request->name) . ';' . $Config->number(trim($request->npwp)) . ';' . trim($request->email);
         $addnew->name           =   trim($request->name);
+        $addnew->kumham         =   trim($request->kumham_no);
+        $addnew->kumham_tgl     =   trim($request->kumham_tgl);
         $addnew->npwp           =   $Config->number(trim($request->npwp));
         $addnew->phone          =   trim($request->phone);
         $addnew->email          =   trim($request->email);
@@ -69,6 +97,8 @@ class lembaga extends Controller
         $addnew->city           =   $bps[1];
         $addnew->kecamatan      =   $bps[2];
         $addnew->address        =   json_encode($address);
+        $addnew->field          =   json_encode($field);
+        $addnew->complete       =   0;
         $addnew->verify         =   $verify;
         $addnew->verify_user    =   $verif_user;
         $addnew->verify_date    =   $verif_date;
@@ -77,19 +107,22 @@ class lembaga extends Controller
         $addnew->save();
 
         //create account if page = 0
-        if($request->page == '0')        
+        if($request->admin_email != '')        
         {
+            $cat = $request->type;
+            $cat = $cat === '1' ? '1' : ($cat === '2' ? '2' : '3');
 
             $datacreateaccount = [
-                'email'     =>  trim($request->useremail),
-                'name'          =>  trim($request->username),
-                'phone'         =>  trim($request->userphone),
-                'gender'        =>  trim($request->gender),
-                'sub_level'     =>  trim($request->categori),
-                'type'          =>  trim($request->type),
+                'email'     =>  trim($request->admin_email),
+                'name'          =>  trim($request->admin_name),
+                'phone'         =>  0,
+                'gender'        =>  1,
+                'sub_level'     =>  trim($request->type),
+                'register_type'          =>  trim($request->register_type),
                 'info'          =>  trim($request->info),
                 'lembaga_id'     =>  $newid,
-                'categori'      =>  trim($request->categori)
+                'categori'      =>  $cat,
+                'type'          =>  trim($request->type)
             ];
 
             $createaccount = $this->createaccount($datacreateaccount);
@@ -110,7 +143,10 @@ class lembaga extends Controller
 
         //
         $owner = [
-            'ketua'     =>  trim($request->ketua),
+            'ketua'     =>  [
+                'name'          =>  trim($request->ketua),
+                'phone'         =>  trim($request->ketua_phone)
+            ],
             'sekertaris'    =>  trim($request->sekertaris),
             'bendahara'     =>  trim($request->bendahara)
         ];
@@ -121,7 +157,8 @@ class lembaga extends Controller
             'provinsi'  =>  $bpslabel[2],
             'city'      =>  $bpslabel[1],
             'kecamatan' =>  $bpslabel[0],
-            'kodepos'   =>  trim($request->kodepos)
+            'kodepos'   =>  trim($request->kodepos),
+            'kelurahan' =>  trim($request->kelurahan)
         ];
 
         $verify = $request->verification;
@@ -135,6 +172,8 @@ class lembaga extends Controller
             'type'      =>  trim($request->categori),
             'search'    =>  trim($request->name) . ';' . $Config->number(trim($request->npwp)) . ';' . trim($request->email),
             'name'      =>  trim($request->name),
+            'kumham'    =>  trim($request->kumham),
+            'kumham_tgl'    =>  trim($request->kumham_tgl),
             'npwp'      =>  $Config->number(trim($request->npwp)),
             'phone'          =>   trim($request->phone),
             'email'          =>   trim($request->email),
@@ -165,6 +204,7 @@ class lembaga extends Controller
             'type'          =>  $request['type'],
             'info'          =>  $request['info'],
             'company_id'    =>  $request['lembaga_id'],
+            'register_type' =>  $request['register_type'],
             'password'      =>  '',
             'username'      =>  ''
         ];

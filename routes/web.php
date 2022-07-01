@@ -75,6 +75,10 @@ $router->group(['prefix' => 'api',  'middleware' => ['cekrequest','cekKeyAccount
     $router->post('/news/hibah/create', 'news\hibah\manage@create');
     $router->get('/news/hibah/view', 'news\hibah\manage@view');
 
+
+    //LEMBAGA
+    $router->get('/lembaga/show', 'lembaga\data@show');
+
     // GET CUSTOMER ============>
     //list on widget
     // $router->get('/customers/list/widget', 'customers\lists@widget');

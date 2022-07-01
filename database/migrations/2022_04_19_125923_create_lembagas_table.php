@@ -19,6 +19,8 @@ class CreateLembagasTable extends Migration
             $table->integer('type');
             $table->text('search'); //name, npwp, email
             $table->string('name');
+            $table->string('kumham');
+            $table->string('kumham_tgl');
             $table->string('npwp');
             $table->string('phone');
             $table->string('email');
@@ -27,6 +29,8 @@ class CreateLembagasTable extends Migration
             $table->integer('city');
             $table->integer('kecamatan');
             $table->text('address');
+            $table->text('field');
+            $table->integer('complete');
             $table->integer('verify');
             $table->bigInteger('verify_user');
             $table->string('verify_date');

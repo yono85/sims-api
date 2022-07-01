@@ -110,10 +110,13 @@ class signup extends Controller
     {
         $Config = new Config;
         $name = trim($request->name);
+        $register_type = trim($request->register_type);
+        $type = trim($request->type);
         $npwp = $Config->number(trim($request->npwp));
+        $kumham = trim($request->kumham_no);
         $phone = trim($request->phone);
         $email = trim($request->email);
-        $useremail = trim($request->useremail);
+        $adminemail = trim($request->admin_email);
 
         //check same name
         $checkname = tblLembagas::where([
@@ -131,67 +134,97 @@ class signup extends Controller
             return response()->json($data, 401);
         }
 
-
+        
+        
         //check same npwp
-        $checknpwp = tblLembagas::where([
-            'npwp'      =>  $npwp
-        ])->count();
-
-        if( $checknpwp > 0 )
+        if( $type != '2')
         {
-            $data = [
-                'message'   =>  'NPWP sudah terdaftar',
-                'focus'     =>  'npwp',
-                'area'      =>  0
-            ];
+            //CHECK KUMHAM
+            $checkkumham = tblLembagas::where([
+                'kumham'        =>  $kumham
+            ])->count();
 
-            return response()->json($data, 401);
+            if( $checkkumham > 0 )
+            {
+                $data = [
+                    'message'   =>  'No. Akta Kumham sudah terdaftar',
+                    'focus'     =>  'kumham_no',
+                    // 'area'      =>  0
+                ];
+    
+                return response()->json($data, 401);
+            }
+
+            // CHECK NPWP
+            $checknpwp = tblLembagas::where([
+                'npwp'      =>  $npwp
+            ])->count();
+    
+            if( $checknpwp > 0 )
+            {
+                $data = [
+                    'message'   =>  'NPWP sudah terdaftar',
+                    'focus'     =>  'npwp',
+                    // 'area'      =>  0
+                ];
+    
+                return response()->json($data, 401);
+            }
         }
 
         //check phone
-        $checkphone = tblLembagas::where([
-            'phone'      =>  $phone
-        ])->count();
-
-        if( $checkphone > 0 )
+        if( $phone != '')
         {
-            $data = [
-                'message'   =>  'Nomor Telp atau HP sudah terdaftar',
-                'focus'     =>  'phone',
-                'area'      =>  1
-            ];
 
-            return response()->json($data, 401);
+            $checkphone = tblLembagas::where([
+                'phone'      =>  $phone
+            ])->count();
+    
+            if( $checkphone > 0 )
+            {
+                $data = [
+                    'message'   =>  'Nomor Telp atau HP sudah terdaftar',
+                    'focus'     =>  'phone',
+                    // 'area'      =>  1
+                ];
+    
+                return response()->json($data, 401);
+            }
+
         }
 
-
-        //check email
-        $checkemail = tblLembagas::where([
-            'email'      =>  $email
-        ])->count();
-
-        if( $checkemail > 0 )
+        if($email != '')
         {
-            $data = [
-                'message'   =>  'Email Lembaga sudah terdaftar',
-                'focus'     =>  'email',
-                'area'      =>  2
-            ];
+            //check email
+            $checkemail = tblLembagas::where([
+                'email'      =>  $email
+            ])->count();
+    
+            if( $checkemail > 0 )
+            {
+                $data = [
+                    'message'   =>  'Email Lembaga sudah terdaftar',
+                    'focus'     =>  'email',
+                    // 'area'      =>  2
+                ];
+    
+                return response()->json($data, 401);
+            }
 
-            return response()->json($data, 401);
         }
+
 
 
         $checkemaillembaga = tblLembagas::where([
-            'email'      =>  $useremail
+            'email'      =>  $adminemail
         ])->count();
 
         if( $checkemaillembaga > 0 )
         {
             $data = [
-                'message'   =>  'Email Admin sudah terdaftar pada Email lembaga',
-                'focus'     =>  'useremail',
-                'area'      =>  4
+                'message'   =>  'Email sudah digunakan oleh Admin',
+                'focus'     =>  'email',
+                // 'area'      =>  4
             ];
 
             return response()->json($data, 401);
@@ -199,15 +232,15 @@ class signup extends Controller
 
 
         $checkemailuser = tblUsers::where([
-            'email'      =>  $useremail
+            'email'      =>  $adminemail
         ])->count();
 
         if( $checkemailuser > 0 )
         {
             $data = [
-                'message'   =>  'Email Admin sudah terdaftar',
-                'focus'     =>  'useremail',
-                'area'      =>  4
+                'message'   =>  'Email Admin sudah digunakan',
+                'focus'     =>  'admin_email',
+                // 'area'      =>  4
             ];
 
             return response()->json($data, 401);
@@ -230,6 +263,5 @@ class signup extends Controller
 
     }
 
-    
 
 }

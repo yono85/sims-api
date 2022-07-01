@@ -94,6 +94,8 @@ class manage extends Controller
         return response()->json($data, $status);
     }
 
+    
+
 
     // // resend verification account
     // public function reverifaccount(Request $request)

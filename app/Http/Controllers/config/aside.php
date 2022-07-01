@@ -185,24 +185,24 @@ class aside extends Controller
     {
         $data = [
             '1'         =>  [ //
-                'menu'          =>  'dashboard,hibah,pengaturan',
+                'menu'          =>  'dashboard,profilelmg,hibah',
                 'submenu'       =>  [
                     'hibah'     =>  'pengajuan',
-                    'pengaturan'    =>  'compro'
+                    // 'pengaturan'    =>  'compro'
                 ]
             ],
             '2'         =>  [ //
-                'menu'          =>  'dashboard,pengaturan',
+                'menu'          =>  'dashboard',
                 'submenu'       =>  [
                     'hibah'     =>  'pengajuan',
-                    'pengaturan'    =>  'compro'
+                    // 'pengaturan'    =>  'compro'
                 ]
             ],
             '3'         =>  [ //admin keuangan
-                'menu'          =>  'dashboard,pengaturan',
+                'menu'          =>  'dashboard',
                 'submenu'       =>  [
                     'hibah'     =>  'pengajuan',
-                    'pengaturan'    =>  'compro'
+                    // 'pengaturan'    =>  'compro'
                 ]
             ]
         ];
@@ -280,6 +280,14 @@ class aside extends Controller
                     'child'         =>  '',
                     'url'           =>  ''
                 ], //end pengaturan
+                'profilelmg'     =>  [
+                    'title'         =>  'Profile Lembaga',
+                    'icon'          =>  'icon fa flaticon2-website',
+                    'type'          =>  '',
+                    'arrow'         =>  '',
+                    'url'           =>  '/dashboard/lembaga/profile',
+                    'child'         =>  ''
+                ],
         ];
 
 
@@ -379,7 +387,7 @@ class aside extends Controller
             ],
             'compro'                =>  [ //production produsen
                 'title'                 =>  'Profil Lembaga',
-                'url'                   =>  '/dashboard/manage/company/profile'
+                'url'                   =>  '/dashboard/lembaga/profile'
             ],
             'hibah'                 =>  [ //production produsen
                 'title'                 =>  'Hibah',

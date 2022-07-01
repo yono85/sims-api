@@ -72,7 +72,7 @@ class users extends Controller
         $dataregisters = [
             'user_id'       =>  $users['id'],
             'info'          =>  $request['info'],
-            'type'          =>  $request['type']
+            'type'          =>  $request['register_type']
         ];
 
         // create registers
@@ -124,6 +124,7 @@ class users extends Controller
         $users->phone       =   trim($request['phone']);
         $users->phone_code  =   trim($request['phone_code']);
         $users->registers   =   0;
+        $users->register_type = trim($request['register_type']);
         $users->status      =   1;
         $users->save();
 

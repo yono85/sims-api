@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->string('phone_code');
             $table->integer('registers');
+            $table->integer('register_type');
             $table->timestamps();
             $table->integer('status');
         });
